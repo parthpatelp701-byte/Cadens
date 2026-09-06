@@ -1,0 +1,199 @@
+--- original/Daybook-GenZ (3).html
++++ index.html
+@@ -8,7 +8,7 @@
+ <meta name="apple-mobile-web-app-title" content="Daybook">
+ <meta name="theme-color" content="#0A0A0F">
+ <meta name="description" content="Tasks · Diary · Calendar · Social · Notes · Places">
+-<title>Daybook</title>
++<title>Cadens — Daybook</title>
+ <style>
+ :root,[data-theme=dark]{
+   --bg:#09090B;--bg2:#0C0C0F;
+@@ -656,7 +656,10 @@
+ <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js" crossorigin="anonymous"></script>
+ </head>
+ <body>
+-<div class="app" id="app">
++<link rel="stylesheet" href="cloud.css">
++<section id="cadensAuth" aria-label="Cadens account"></section>
++<div id="cadensCloudBar" hidden><span id="cadensStatus" role="status"></span><button id="cadensSave">Save now</button><button id="cadensLogout">Log out</button></div>
++<div class="app" id="app" hidden inert>
+   <header class="topbar">
+     <div style="flex:1;min-width:0">
+       <h1 id="vTitle">Tasks</h1>
+@@ -898,7 +901,7 @@
+         <div class="priv">
+           <button type="button" data-act="setPriv" data-v="group" class="on">Group</button>
+           <button type="button" data-act="setPriv" data-v="circle">Circle</button>
+-          <button type="button" data-act="setPriv" data-v="public">Public</button>
++          <button type="button" data-act="setPriv" data-v="public">Approved family</button>
+           <button type="button" data-act="setPriv" data-v="private">Only me</button>
+         </div>
+         <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+@@ -1227,9 +1230,9 @@
+       <div id="groupCurrent"></div>
+       <div class="eyebrow" style="margin:16px 0 8px">Create</div>
+       <div class="field"><label>Group name</label><input id="gName" placeholder="Family grind" maxlength="40"></div>
+-      <button class="btn soft block" data-act="createGroup">Create group</button>
++      <label>Space type<select id="cadensGroupKind"><option value="group">Group</option><option value="family">Family</option></select></label><button class="btn soft block" data-act="createGroup">Create group</button>
+       <div class="eyebrow" style="margin:16px 0 8px">Join with code</div>
+-      <div class="field"><label>Invite code</label><input id="gCode" placeholder="DAY-AB12" maxlength="16" style="text-transform:uppercase"></div>
++      <div class="field"><label>Invite code</label><input id="gCode" placeholder="C-…" maxlength="32" style="text-transform:uppercase"></div>
+       <button class="btn soft block" data-act="joinGroup">Join group</button>
+       <div class="eyebrow" style="margin:16px 0 8px">Members</div>
+       <div id="groupMembers"></div>
+@@ -1398,7 +1401,7 @@
+   profile:{displayName:'You',bio:'',phone:'',categories:DEFAULT_CATS.slice(),family:[],group:null},
+   view:'tasks', cat:'all', diaryDate:null, calOpen:false, calMonth:null,
+   calMode:'day', calAnchor:null,
+-  postMood:'😊', postPriv:'group',
++  postMood:'😊', postPriv:'private',
+   editingTask:null, editingNote:null, editingEvent:null, planToday:false, taskQ:'', noteQ:'', placeQ:'', taskSort:'smart', dayMoods:{}, focus:null, eisen:'all', weekGoal:'', selected:{}, wf:'active', board:false, focusUI:false, xp:0, level:1, intention:'', quest:null, combo:0, freezeLeft:1, freezeWeek:''
+ };
+ 
+@@ -1407,10 +1410,10 @@
+ const esc = s => String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+ const uid = () => (crypto.randomUUID ? crypto.randomUUID() : 'x'+Date.now()+Math.random().toString(16).slice(2));
+ const ymd = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+-const today = () => ymd(new Date());
+-const addDays = n => { const d=new Date(); d.setDate(d.getDate()+n); return ymd(d); };
++const today = () => window.CadensCloud?.today() || new Intl.DateTimeFormat('en-CA',{timeZone:'America/Vancouver'}).format(new Date());
++const addDays = n => { const d=parseYMD(today()); d.setDate(d.getDate()+n); return ymd(d); };
+ const parseYMD = s => { const p=String(s).split('-'); return new Date(+p[0],+p[1]-1,+p[2]); };
+-const daysUntil = s => { if(!s) return null; const t=new Date(); t.setHours(0,0,0,0); return Math.round((parseYMD(s)-t)/864e5); };
++const daysUntil = s => { if(!s) return null; const t=parseYMD(today()); return Math.round((parseYMD(s)-t)/864e5); };
+ const dueMeta = s => {
+   const n=daysUntil(s); if(n===null) return null;
+   if(n<0) return {n,tone:'over',label:n===-1?'Yesterday':Math.abs(n)+'d overdue'};
+@@ -1442,7 +1445,8 @@
+   return hh+':'+(mm<10?'0':'')+mm+(am?' AM':' PM');
+ }
+ 
+-function persist(){
++function persist(){ return window.CadensCloud?.changed(); }
++function legacyPersist(){
+   localStorage.setItem(LS_KEY, JSON.stringify({
+     tasks:S.tasks, events:S.events, posts:S.posts, notes:S.notes, places:S.places, lists:S.lists, links:S.links, habits:S.habits||[], reviews:S.reviews||[],
+     log:S.log, profile:S.profile, dayMoods:S.dayMoods||{}, weekGoal:S.weekGoal||"", xp:S.xp||0, level:S.level||1, intention:S.intention||"", freezeLeft:S.freezeLeft??1, freezeWeek:S.freezeWeek||"", theme:document.documentElement.dataset.theme
+@@ -1565,12 +1569,12 @@
+   if(t.is_done && t.repeat){
+     const next = nextRepeatDate(t.repeat, t.due_date || today());
+     const clone = {
+-      id:uid(), text:t.text, is_done:false, category:t.category, due_date:next,
++      ...t, repeat_parent_id:t.id, id:uid(), text:t.text, is_done:false, category:t.category, due_date:next,
+       priority:t.priority, progress:0, planned_date:null, subs:(t.subs||[]).map(s=>({text:s.text,done:false})),
+       repeat:t.repeat, quad:t.quad||'', notes:t.notes||'', pinned:false,
+       created_at:new Date().toISOString(), updated_at:new Date().toISOString()
+     };
+-    S.tasks.unshift(clone);
++    if(!S.tasks.some(x=>x.repeat_parent_id===t.id&&x.due_date===next)) S.tasks.unshift(clone);
+     toast('Done · next '+t.repeat+' set', {label:'Undo', run:()=>toggleTask(id)});
+   } else if(t.is_done) {
+     toast('Done',{label:'Undo',run:()=>toggleTask(id)});
+@@ -2384,9 +2388,9 @@
+   const t = S.profile.reminder_time;
+   if(!t) return;
+   const now = new Date();
+-  const cur = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+-  if(cur === t && S._lastRemind !== cur){
+-    S._lastRemind = cur;
++  const cur = new Intl.DateTimeFormat('en-GB',{timeZone:'America/Vancouver',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(now);
++  if(cur === t && S._lastRemind !== today()+' '+cur){
++    S._lastRemind = today()+' '+cur;
+     const open = S.tasks.filter(x=>!x.is_done).length;
+     if(open) toast('Reminder · '+open+' open task'+(open>1?'s':''), {label:'View', run:()=>go('tasks')});
+   }
+@@ -2842,6 +2846,8 @@
+   const start = task.due_time || '09:00';
+   const dur = task.duration || 30;
+   const end = addMinutes(start, dur);
++  const existing=S.events.find(e=>e.taskId===task.id);
++  if(existing){Object.assign(existing,{title:task.text.slice(0,80),date:task.due_date,start,end});return;}
+   S.events.push({
+     id: uid(),
+     title: task.text.slice(0,80),
+@@ -3361,7 +3367,7 @@
+ }
+ 
+ function progressCardHTML(p){
+-  const s = p.progress || {};
++  const s = Object.fromEntries(Object.entries(p.progress || {}).map(([k,v])=>[k,Number.isFinite(+v)?Math.max(0,+v):0]));
+   return '<div class="prog-post">'+
+     '<div class="pg-title">Group progress · ' + esc(p.groupName || 'Group') + '</div>'+
+     '<div class="prog-grid">'+
+@@ -3380,8 +3386,8 @@
+   try{renderGroupBanner();}catch(e){}
+   const you=S.profile.displayName||'You';
+   $('#storyRail').innerHTML =
+-    `<div class="story you"><div class="ring"><i>${(you[0]||'Y').toUpperCase()}</i></div><small>Your day</small></div>`+
+-    S.profile.family.slice(0,8).map(c=>`<div class="story"><div class="ring"><i>${(c.name[0]||'?').toUpperCase()}</i></div><small>${esc(c.name)}</small></div>`).join('');
++    `<div class="story you"><div class="ring"><i>${esc((you[0]||'Y').toUpperCase())}</i></div><small>Your day</small></div>`+
++    S.profile.family.slice(0,8).map(c=>`<div class="story"><div class="ring"><i>${esc((c.name[0]||'?').toUpperCase())}</i></div><small>${esc(c.name)}</small></div>`).join('');
+   $('#moodRow').innerHTML=MOODS.map(m=>`<button type="button" class="mood ${S.postMood===m?'on':''}" data-act="setMood" data-v="${m}">${m}</button>`).join('');
+   $$('.priv button').forEach(b=>b.classList.toggle('on', b.dataset.v===S.postPriv));
+   const sel=$('#postPlace'); const cur=sel.value;
+@@ -3398,14 +3404,14 @@
+     return `<article class="post">
+       <div class="post-h"><div class="av">${esc(p.avatar||p.author[0])}</div>
+         <div style="flex:1"><b>${esc(p.author)}</b><small>${esc(ago(p.created_at))} · ${esc(privLabel)}</small></div>
+-        ${(p.author==='You'||p.author===(S.profile.displayName||'You'))?`<button class="iconbtn" data-act="delPost" data-id="${p.id}">🗑</button>`:''}
+-      </div>
+-      <div class="post-body"><span class="mood-l">${p.mood||''}</span>${esc(p.text)}</div>
++        ${(!p._ownerId||p._ownerId===window.CadensCloud?.userId)?`<button class="iconbtn" data-act="delPost" data-id="${esc(p.id)}">🗑</button>`:''}
++      </div>
++      <div class="post-body"><span class="mood-l">${esc(p.mood||'')}</span>${esc(p.text)}</div>
+       ${bodyExtra}
+       <div class="post-act">
+-        <button data-act="like" data-id="${p.id}" class="${p.liked?'on':''}">${p.liked?'♥':'♡'} ${p.likes||0}</button>
+-        <button data-act="comment" data-id="${p.id}">Comment</button>
+-        <button data-act="sharePost" data-id="${p.id}">Share</button>
++        <button data-act="like" data-id="${esc(p.id)}" class="${p.liked?'on':''}">${p.liked?'♥':'♡'} ${p.likes||0}</button>
++        <button data-act="comment" data-id="${esc(p.id)}">Comment</button>
++        <button data-act="sharePost" data-id="${esc(p.id)}">Share</button>
+       </div>${comments}</article>`;
+   }).join('');
+ }
+@@ -3513,13 +3519,13 @@
+   host.innerHTML=places.map(p=>{
+     const ico = p.kind==='cafe'?'☕':p.kind==='outdoors'?'🌳':p.kind==='home'?'🏠':p.kind==='geo'?'📌':'📍';
+     const coords = (p.lat!=null && p.lng!=null) ? (Number(p.lat).toFixed(5)+', '+Number(p.lng).toFixed(5)) : '';
+-    const mapBtn = coords ? `<button class="iconbtn" data-act="openMaps" data-id="${p.id}" title="Google Maps" aria-label="Open in Google Maps">🗺️</button>
+-      <button class="iconbtn" data-act="directions" data-id="${p.id}" title="Directions" aria-label="Directions">↗</button>` : '';
++    const mapBtn = coords ? `<button class="iconbtn" data-act="openMaps" data-id="${esc(p.id)}" title="Google Maps" aria-label="Open in Google Maps">🗺️</button>
++      <button class="iconbtn" data-act="directions" data-id="${esc(p.id)}" title="Directions" aria-label="Directions">↗</button>` : '';
+     return `<div class="place">
+       ${p.photo?`<img class="mem-thumb" src="${p.photo}" alt="">`:`<div class="place-ico">${ico}</div>`}
+       <div style="flex:1;min-width:0"><b>${esc(p.name)}</b><small>${esc(p.note||p.kind||'Place')}</small>
+         ${coords?`<div class="place-coords">${coords}${p.accuracy?(' · ±'+p.accuracy+'m'):''}</div>`:''}</div>
+-      <div class="place-acts">${mapBtn}<button class="iconbtn" data-act="editPlace" data-id="${p.id}">✎</button><button class="iconbtn" data-act="delPlace" data-id="${p.id}">🗑</button></div>
++      <div class="place-acts">${mapBtn}<button class="iconbtn" data-act="editPlace" data-id="${esc(p.id)}">✎</button><button class="iconbtn" data-act="delPlace" data-id="${esc(p.id)}">🗑</button></div>
+     </div>`;
+   }).join('');
+ }
+@@ -3587,7 +3593,7 @@
+         <button class="iconbtn" data-act="delList" data-id="${L.id}">🗑</button></div>
+       ${L.items.map(it=>`<div class="list-item ${it.done?'done':''}" data-act="toggleItem" data-id="${L.id}" data-v="${it.id}">
+         <span class="box">✓</span><span style="flex:1">${esc(it.text)}</span>
+-        ${it.url?`<a class="item-link" href="${esc(it.url)}" target="_blank" rel="noopener" data-act="stop" onclick="event.stopPropagation()">Buy</a>`:''}</div>`).join('')}
++        ${it.url?`<a class="item-link" href="${esc(it.url)}" target="_blank" rel="noopener" data-act="stop" >Buy</a>`:''}</div>`).join('')}
+       <div class="list-add"><input placeholder="Item or paste product URL…" data-list="${L.id}" maxlength="300">
+         <button class="btn soft" data-act="addItem" data-id="${L.id}">Add</button></div>
+     </div>`;
+@@ -4147,11 +4153,12 @@
+ }
+ 
+ 
+-initThemeEngine();
+-load();
+-fillCats();
+-const av=$('#avChip');if(av)av.textContent=((S.profile.displayName||'You')[0]||'Y').toUpperCase();
+-go('tasks');
++window.CadensBoot = function(){
++  initThemeEngine(); fillCats();
++  const av=$('#avChip');if(av)av.textContent=((S.profile.displayName||'You')[0]||'Y').toUpperCase();
++  go('tasks');
++};
+ </script>
++<script src="cloud.js"></script>
+ </body>
+ </html>

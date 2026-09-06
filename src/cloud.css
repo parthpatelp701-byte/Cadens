@@ -1,0 +1,7 @@
+#app[hidden],#cadensCloudBar[hidden],#cadensAuth[hidden]{display:none!important}
+#cadensAuth{max-width:420px;margin:12vh auto;padding:24px;font:16px system-ui;line-height:1.5}
+#cadensAuth input{display:block;width:100%;padding:12px;margin:8px 0 16px;border:1px solid #888;border-radius:10px}
+#cadensAuth button,#cadensCloudBar button{padding:8px 12px;margin:4px;border:1px solid #888;border-radius:8px;cursor:pointer}
+#cadensCloudBar{position:sticky;top:0;z-index:90;padding:6px 12px;background:var(--s1,#fff);color:var(--text,#111);font:12px system-ui;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#cadensStatus{flex:1}#cadensAuth [role=alert]{white-space:pre-wrap}
+body:has(#cadensAuth:not([hidden]))> :not(#cadensAuth):not(script):not(link){display:none!important}
