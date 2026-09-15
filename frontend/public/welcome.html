@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#09090B">
+<title>Cadens — make your delulu era actually productive</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238B5CF6'/%3E%3Cstop offset='1' stop-color='%23EC4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M8 34h10l4-11 6 22 5-16 4 5h19' fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link href="/cadens-theme.css" rel="stylesheet">
+<link rel="prefetch" href="/signup">
+<style>
+:root{
+  --bg:var(--cadens-bg);--s1:var(--cadens-s1);--s2:var(--cadens-s2);--s3:var(--cadens-s3);
+  --line:var(--cadens-line);--line-soft:var(--cadens-line-soft);
+  --txt:var(--cadens-txt);--dim:var(--cadens-dim);--mute:var(--cadens-mute);
+  --violet:#8B5CF6;--pink:var(--cadens-pink);--emerald:#10B981;--blue:#3B82F6;--amber:#F59E0B;--lime:#CBFF3D;
+  --ink:var(--cadens-ink);
+  --pill:999px;--r:var(--cadens-radius);--r-lg:var(--cadens-radius-lg);
+  --font:var(--cadens-font);--disp:var(--cadens-display);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img,svg{display:block}
+:focus-visible{outline:3px solid var(--lime);outline-offset:3px;border-radius:6px}
+.disp{font-family:var(--disp)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+section{padding:96px 0}
+h2.disp{font-size:clamp(1.9rem,4.6vw,3rem);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:14px}
+
+/* ---------- Nav ---------- */
+.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 78%,transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
+.nav-inner{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:9px}
+.nav .brand{view-transition-name:cadens-brand}
+.brand .mark{width:32px;height:32px;border-radius:10px;flex:none;background:linear-gradient(135deg,var(--violet),var(--pink));
+  display:grid;place-items:center}
+.brand .word{font-family:var(--disp);font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+.nav-links{display:flex;align-items:center;gap:26px;font-weight:650;font-size:.88rem;color:var(--dim)}
+.nav-links a:hover{color:var(--txt)}
+.nav-cta{display:flex;align-items:center;gap:10px}
+.btn-ghost{padding:9px 16px;border-radius:var(--pill);border:1.5px solid var(--line);font-weight:700;font-size:.83rem;transition:border-color .15s,background .15s}
+.btn-ghost:hover{border-color:var(--txt);background:var(--s1)}
+.btn-brut{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:var(--pill);
+  background:var(--lime);color:var(--ink);font-weight:800;font-size:.83rem;border:2.5px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.btn-brut:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn-brut:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.btn-brut.lg{padding:16px 30px;font-size:1rem;border-width:3px;box-shadow:5px 5px 0 var(--ink)}
+@media (max-width:760px){.nav-links{display:none}}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;padding:76px 0 110px}
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.glow{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55}
+.glow.g1{width:56vmax;height:56vmax;left:-20vmax;top:-26vmax;background:radial-gradient(circle,var(--violet),transparent 70%);animation:drift1 24s ease-in-out infinite}
+.glow.g2{width:48vmax;height:48vmax;right:-18vmax;top:-8vmax;background:radial-gradient(circle,var(--pink),transparent 70%);animation:drift2 30s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(3vmax,4vmax)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-4vmax,3vmax)}}
+.ghost-word{position:absolute;left:50%;top:6%;transform:translateX(-50%);font-family:var(--disp);
+  font-size:min(22vw,260px);font-weight:900;letter-spacing:-.04em;color:rgba(255,255,255,.035);white-space:nowrap}
+.pulse-svg{position:absolute;left:0;right:0;bottom:6%;width:100%;height:22vh;min-height:130px}
+.pulse-trace{fill:none;stroke:rgba(255,255,255,.07);stroke-width:2}
+.pulse-glow{fill:none;stroke:url(#pulseGrad);stroke-width:3;stroke-linecap:round;
+  stroke-dasharray:60 3000;filter:drop-shadow(0 0 8px rgba(139,92,246,.55));animation:travel 7s linear infinite}
+@keyframes travel{to{stroke-dashoffset:-3060}}
+
+.hero-inner{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 24px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--pill);
+  background:var(--s1);border:1.5px solid var(--line);font-weight:700;font-size:.8rem;color:var(--dim);
+  transform:rotate(-2deg);margin-bottom:22px}
+h1.hero-h{font-family:var(--disp);font-weight:800;font-size:clamp(2.2rem,6vw,3.8rem);line-height:1.06;
+  letter-spacing:-.03em;margin-bottom:20px}
+h1.hero-h .grad{background:linear-gradient(120deg,var(--violet),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--dim);font-size:1.05rem;max-width:560px;margin:0 auto 32px}
+.hero-cta{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.hero-cta .btn-ghost{padding:14px 22px;font-size:.92rem}
+.hero-cta .btn-brut{padding:15px 26px;font-size:.95rem}
+
+.hero-floaters{position:relative;z-index:1;max-width:900px;margin:56px auto 0;height:150px}
+.fcard{position:absolute;display:flex;align-items:center;gap:10px;padding:12px 15px;border-radius:16px;
+  border:2px solid var(--ink);font-size:.8rem;white-space:nowrap;opacity:0;transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
+.fcard.show{opacity:1}
+.fcard b{display:block;font-size:.87rem;font-weight:800}
+.fcard small{opacity:.8;font-weight:650;font-size:.72rem}
+.fc1{left:2%;top:6%;background:var(--amber);color:var(--ink);transform:translateY(14px) rotate(-4deg);box-shadow:4px 4px 0 var(--ink)}
+.fc1.show{transform:translateY(0) rotate(-4deg)}
+.fc2{right:1%;top:0;background:var(--violet);color:#fff;border-color:#000;transform:translateY(14px) rotate(3deg);box-shadow:4px 4px 0 #000}
+.fc2.show{transform:translateY(0) rotate(3deg)}
+.fc3{left:16%;bottom:0;background:var(--emerald);color:var(--ink);transform:translateY(14px) rotate(2deg);box-shadow:4px 4px 0 var(--ink)}
+.fc3.show{transform:translateY(0) rotate(2deg)}
+.doodle{position:absolute;right:14%;bottom:26px;width:120px;height:70px;opacity:0;transition:opacity .5s ease .9s}
+.doodle.show{opacity:1}
+.doodle svg{width:100%;height:100%}
+.doodle span{position:absolute;left:0;bottom:0;font-family:var(--disp);font-weight:700;font-size:.78rem;
+  color:var(--lime);transform:rotate(-4deg);white-space:nowrap}
+@media (max-width:720px){.hero-floaters{display:none}}
+
+/* ---------- Ticker ---------- */
+.ticker{background:var(--lime);border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);
+  overflow:hidden;padding:12px 0}
+.ticker-track{display:flex;width:max-content;animation:tick 24s linear infinite}
+.ticker-track span{display:flex;align-items:center;gap:14px;padding-right:14px;color:var(--ink);
+  font-family:var(--disp);font-weight:700;font-size:.85rem;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- Bento features ---------- */
+.features{text-align:center}
+.features .lead{margin-bottom:52px}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;text-align:left}
+.tile{border-radius:var(--r);border:1.5px solid var(--line-soft);padding:24px;position:relative;overflow:hidden;
+  opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.tile.show{opacity:1;transform:translateY(0)}
+.tile .ti{font-size:1.6rem;margin-bottom:14px}
+.tile h3{font-family:var(--disp);font-weight:700;font-size:1.05rem;margin-bottom:8px;letter-spacing:-.01em}
+.tile p{color:var(--dim);font-size:.88rem}
+.t1{grid-column:span 3;background:color-mix(in srgb,var(--violet) 24%,var(--s1));box-shadow:6px 6px 0 rgba(0,0,0,.35)}
+.t2{grid-column:span 3;background:color-mix(in srgb,var(--amber) 22%,var(--s1));box-shadow:6px 6px 0 rgba(0,0,0,.35)}
+.t3{grid-column:span 2;background:color-mix(in srgb,var(--pink) 22%,var(--s1));box-shadow:6px 6px 0 rgba(0,0,0,.35)}
+.t4{grid-column:span 2;background:color-mix(in srgb,var(--blue) 22%,var(--s1));box-shadow:6px 6px 0 rgba(0,0,0,.35)}
+.t5{grid-column:span 2;background:color-mix(in srgb,var(--emerald) 22%,var(--s1));box-shadow:6px 6px 0 rgba(0,0,0,.35)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:52px;margin-bottom:14px}
+.bars i{display:block;width:12px;border-radius:4px 4px 0 0;background:var(--txt);opacity:.9}
+@media (max-width:900px){.bento{grid-template-columns:1fr 1fr}.t1,.t2{grid-column:span 2}.t3,.t4,.t5{grid-column:span 1}}
+@media (max-width:600px){.bento{grid-template-columns:1fr}.t1,.t2,.t3,.t4,.t5{grid-column:span 1}}
+
+/* ---------- Comparison ---------- */
+.compare{text-align:center}
+.compare-grid{max-width:760px;margin:44px auto 0;border-radius:var(--r);overflow:hidden;border:1.5px solid var(--line-soft)}
+.crow{display:grid;grid-template-columns:1fr 1fr}
+.crow>div{padding:16px 20px;font-size:.9rem;font-weight:650}
+.crow .no{background:var(--s1);color:var(--mute);text-decoration:line-through;text-decoration-color:var(--mute)}
+.crow .yes{background:color-mix(in srgb,var(--emerald) 16%,var(--s1));color:var(--txt)}
+.crow:not(:last-child){border-bottom:1px solid var(--line-soft)}
+.chead{display:grid;grid-template-columns:1fr 1fr;font-family:var(--disp);font-weight:700;font-size:.78rem;
+  text-transform:uppercase;letter-spacing:.03em}
+.chead>div{padding:12px 20px}
+.chead .no{background:var(--s2);color:var(--mute)}
+.chead .yes{background:color-mix(in srgb,var(--emerald) 26%,var(--s2));color:var(--emerald)}
+@media (max-width:600px){.crow>div,.chead>div{padding:12px 14px;font-size:.82rem}}
+
+/* ---------- Peek / feed mock ---------- */
+.peek{text-align:center}
+.peek .lead-sm{color:var(--dim);font-size:.95rem;margin-bottom:44px}
+.feed-mock{max-width:480px;margin:0 auto;text-align:left;display:flex;flex-direction:column;gap:14px}
+.mock-card{background:var(--s1);border:1.5px solid var(--line-soft);border-radius:var(--r);padding:18px}
+.mock-h{display:flex;align-items:center;justify-content:space-between;font-size:.78rem;color:var(--dim);font-weight:650;margin-bottom:12px}
+.mock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.mock-stat{background:var(--s2);border-radius:12px;padding:10px;text-align:center}
+.mock-stat b{display:block;font-size:1.1rem;font-weight:800}
+.mock-stat span{font-size:.68rem;color:var(--mute);font-weight:650}
+.mock-cheer{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--dim);font-weight:650}
+.mock-lb{display:flex;flex-direction:column;gap:8px}
+.mock-row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:12px;background:var(--s2)}
+.mock-row.you{background:color-mix(in srgb,var(--violet) 20%,var(--s2))}
+.mock-rank{width:20px;text-align:center;font-weight:800;font-size:.8rem}
+.mock-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--pink));
+  display:grid;place-items:center;font-size:.72rem;font-weight:800;color:#fff;flex:none}
+.mock-name{flex:1;font-size:.85rem;font-weight:650}
+.mock-pts{font-weight:800;font-size:.85rem}
+
+/* ---------- How it works ---------- */
+.how{text-align:center}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:44px auto 0;text-align:left}
+.step{padding:22px;border-radius:var(--r);border:1.5px solid var(--line-soft);background:var(--s1)}
+.step .num{width:34px;height:34px;border-radius:50%;background:var(--lime);color:var(--ink);
+  display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:.9rem;margin-bottom:14px}
+.step h3{font-family:var(--disp);font-weight:700;font-size:1rem;margin-bottom:6px}
+.step p{color:var(--dim);font-size:.85rem}
+@media (max-width:760px){.steps{grid-template-columns:1fr}}
+
+/* ---------- Final CTA ---------- */
+.final-cta{text-align:center;position:relative;overflow:hidden}
+.final-cta::before{content:"";position:absolute;inset:-40% -10% auto -10%;height:340px;
+  background:radial-gradient(circle,var(--violet),transparent 65%);opacity:.35;filter:blur(70px);z-index:0}
+.final-cta>*{position:relative;z-index:1}
+.final-cta p{color:var(--dim);margin-bottom:28px}
+
+/* ---------- Footer ---------- */
+.foot{border-top:1px solid var(--line-soft);padding:36px 0}
+.foot-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.foot-links{display:flex;gap:20px;font-size:.82rem;color:var(--dim);font-weight:650}
+.foot-note{color:var(--mute);font-size:.78rem}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .fcard,.doodle,.tile{opacity:1 !important;transform:none !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <span class="mark"><svg width="16" height="16" viewBox="0 0 20 20"><path d="M2 11h3l1.5-4 2.5 8 2-6 1.5 2h5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="word">Cadens</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn-ghost" href="/signin">Log in</a>
+      <a class="btn-brut" href="/signup">get started</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <div class="ghost-word">cadens</div>
+    <svg class="pulse-svg" viewBox="0 0 1000 220" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="pulseGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8B5CF6"/><stop offset="55%" stop-color="#EC4899"/><stop offset="100%" stop-color="#10B981"/>
+        </linearGradient>
+      </defs>
+      <path class="pulse-trace" d="M0,110 L120,110 L150,60 L180,150 L210,110 L340,110 L365,20 L385,190 L405,110 L560,110 L585,75 L605,145 L625,110 L760,110 L790,10 L815,200 L840,110 L1000,110"/>
+      <path class="pulse-glow" d="M0,110 L120,110 L150,60 L180,150 L210,110 L340,110 L365,20 L385,190 L405,110 L560,110 L585,75 L605,145 L625,110 L760,110 L790,10 L815,200 L840,110 L1000,110"/>
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+    <span class="badge">🎯 for passion projects, not spreadsheets</span>
+    <h1 class="hero-h">make your delulu era<br><span class="grad">actually productive.</span></h1>
+    <p class="lead">Cadens turns passion projects into a rhythm you actually keep — real effort earns real points, streaks come with a freeze instead of guilt, and the leaderboard has a mute button.</p>
+    <div class="hero-cta">
+      <a class="btn-brut" href="/signup">get started free</a>
+      <a class="btn-ghost" href="#features">see what's inside</a>
+    </div>
+  </div>
+
+  <div class="hero-floaters" aria-hidden="true">
+    <div class="fcard fc1" data-delay="1"><span>🔥</span><div><b>14-day streak</b><small>zero guilt trips</small></div></div>
+    <div class="fcard fc2" data-delay="2"><span>✅</span><div><b>+23 pts</b><small>finished "record demo reel"</small></div></div>
+    <div class="fcard fc3" data-delay="3"><span>🏆</span><div><b>#2 this week</b><small>mute it anytime</small></div></div>
+    <div class="doodle" data-delay="4">
+      <svg viewBox="0 0 120 70"><path d="M110 6C70 6 40 40 18 46" fill="none" stroke="#CBFF3D" stroke-width="2.5" stroke-linecap="round"/><path d="M26 34 L16 47 L32 50" fill="none" stroke="#CBFF3D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>this part actually matters</span>
+    </div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>REAL EFFORT = REAL POINTS&nbsp;&nbsp;·&nbsp;&nbsp;STREAKS WITH ZERO GUILT&nbsp;&nbsp;·&nbsp;&nbsp;LEADERBOARD HAS A MUTE BUTTON&nbsp;&nbsp;·&nbsp;&nbsp;BUILT FOR PASSION PROJECTS&nbsp;&nbsp;·&nbsp;&nbsp;YOUR PACE YOUR RULES&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+    <span>REAL EFFORT = REAL POINTS&nbsp;&nbsp;·&nbsp;&nbsp;STREAKS WITH ZERO GUILT&nbsp;&nbsp;·&nbsp;&nbsp;LEADERBOARD HAS A MUTE BUTTON&nbsp;&nbsp;·&nbsp;&nbsp;BUILT FOR PASSION PROJECTS&nbsp;&nbsp;·&nbsp;&nbsp;YOUR PACE YOUR RULES&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<section class="features" id="features">
+  <div class="wrap">
+    <h2 class="disp">what's actually in here</h2>
+    <p class="lead" style="margin:0 auto 44px">five things, no filler.</p>
+    <div class="bento">
+      <div class="tile t1" data-delay="1">
+        <div class="bars"><i style="height:18px;background:var(--violet)"></i><i style="height:14px;background:var(--violet)"></i><i style="height:44px;background:var(--lime)"></i><i style="height:12px;background:var(--violet)"></i><i style="height:16px;background:var(--violet)"></i></div>
+        <h3>one real task beats five fake ones</h3>
+        <p>Points come from effort — how long a task takes, how important it is, how many steps it has. Quick two-minute tasks are capped low on purpose, so you can't game your way to the top.</p>
+      </div>
+      <div class="tile t2" data-delay="2">
+        <div class="ti">🔥</div>
+        <h3>streaks that don't guilt-trip you</h3>
+        <p>Miss a day? Use a freeze instead of losing everything you built. Momentum, not anxiety.</p>
+      </div>
+      <div class="tile t3" data-delay="3">
+        <div class="ti">🏆</div>
+        <h3>a leaderboard with a mute button</h3>
+        <p>Compare with friends if that's what gets you moving. Flip one switch and it's just for you.</p>
+      </div>
+      <div class="tile t4" data-delay="4">
+        <div class="ti">🎯</div>
+        <h3>passion projects, broken down</h3>
+        <p>Turn the big scary dream into tasks small enough to actually start today.</p>
+      </div>
+      <div class="tile t5" data-delay="5">
+        <div class="ti">👏</div>
+        <h3>cheer, not compete</h3>
+        <p>React to a friend's streak or finished task. Hype squad energy, not toxic comparison.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="compare">
+  <div class="wrap">
+    <h2 class="disp">not like other productivity apps</h2>
+    <div class="compare-grid">
+      <div class="chead"><div class="no">typical app</div><div class="yes">cadens</div></div>
+      <div class="crow"><div class="no">guilts you for missing a day</div><div class="yes">hands you a freeze instead</div></div>
+      <div class="crow"><div class="no">same points for everything</div><div class="yes">real effort decides the points</div></div>
+      <div class="crow"><div class="no">leaderboard you can't escape</div><div class="yes">leaderboard you can mute</div></div>
+      <div class="crow"><div class="no">looks like a spreadsheet</div><div class="yes">looks like something you'd screenshot</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="peek">
+  <div class="wrap">
+    <h2 class="disp">peek inside</h2>
+    <p class="lead-sm">Example screens showing how your shared feed can look.</p>
+    <div class="feed-mock">
+      <div class="mock-card">
+        <div class="mock-h"><span>Group progress · Study Squad</span><span>Today</span></div>
+        <div class="mock-grid">
+          <div class="mock-stat"><b>5</b><span>done today</span></div>
+          <div class="mock-stat"><b>4</b><span>day streak</span></div>
+          <div class="mock-stat"><b>214</b><span>pts this wk</span></div>
+        </div>
+        <div class="mock-cheer">👏 12 · Jordan cheered your streak</div>
+      </div>
+      <div class="mock-card">
+        <div class="mock-h"><span>Weekly leaderboard</span><span>resets Monday</span></div>
+        <div class="mock-lb">
+          <div class="mock-row you"><span class="mock-rank">🥇</span><span class="mock-av">Y</span><span class="mock-name">You</span><span class="mock-pts">214</span></div>
+          <div class="mock-row"><span class="mock-rank">🥈</span><span class="mock-av">J</span><span class="mock-name">Jordan</span><span class="mock-pts">190</span></div>
+          <div class="mock-row"><span class="mock-rank">🥉</span><span class="mock-av">S</span><span class="mock-name">Sam</span><span class="mock-pts">165</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <h2 class="disp">how it works</h2>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>pick a project</h3><p>The one you keep almost starting.</p></div>
+      <div class="step"><div class="num">2</div><h3>break it into tasks</h3><p>Cadens scores each one by real effort, not by how many boxes you check.</p></div>
+      <div class="step"><div class="num">3</div><h3>keep the rhythm</h3><p>Streaks, points, and a leaderboard you fully control.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <h2 class="disp">ready to keep your cadence?</h2>
+    <p>private beta · no credit card.</p>
+    <a class="btn-brut lg" href="/signup">get started free</a>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <div class="brand"><span class="mark"><svg width="14" height="14" viewBox="0 0 20 20"><path d="M2 11h3l1.5-4 2.5 8 2-6 1.5 2h5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="word" style="font-size:.9rem">Cadens</span></div>
+    <div class="foot-links"><a href="#features">Features</a><a href="#how">How it works</a><a href="/signin">Log in</a></div>
+    <div class="foot-note">© 2026 Cadens · made for the delulu-to-done pipeline</div>
+  </div>
+</footer>
+
+<script>
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function revealNow(){
+  document.querySelectorAll('.fcard,.doodle,.tile').forEach(el=> el.classList.add('show'));
+}
+
+if(reduceMotion){
+  revealNow();
+} else {
+  // Hero: one orchestrated entrance, timed like a rhythm.
+  document.querySelectorAll('.hero-floaters .fcard, .hero-floaters .doodle').forEach(el=>{
+    const delay = 300 + (+el.dataset.delay || 0) * 160;
+    setTimeout(()=> el.classList.add('show'), delay);
+  });
+
+  // Bento grid: one staggered reveal when the section enters view.
+  const tiles = document.querySelectorAll('.tile');
+  const io = new IntersectionObserver((entries, obs)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        tiles.forEach(t=>{
+          const delay = (+t.dataset.delay || 0) * 90;
+          setTimeout(()=> t.classList.add('show'), delay);
+        });
+        obs.disconnect();
+      }
+    });
+  }, {threshold:.2});
+  const bentoSection = document.querySelector('.bento');
+  if(bentoSection) io.observe(bentoSection);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "source": "daybook-cadens/dist; local successful September 6 release artifacts",
+  "note": "cloud.js, cloud.css and auth.js retain their original bytes. Reviewed UI changes: app.html has mode deep links, shared navigation and a dark theme bridge; welcome.html shares its extracted tokens and document transition with React. cadens-auth.html now forwards existing bookmarks and recovery links to the single React auth surface. Shared theme and forwarding assets are integrity checked below. Business data contracts remain unchanged.",
+  "supabaseProject": "iqnctgdnlyxjngqnzacr",
+  "sha256": {
+    "app.html": "4187b9ac83e653aae3f4546c23a9b7c1612c8da413ba4a6d7ba9e09d966e9096",
+    "cloud.js": "88d19fdc473b92f5af77f4213183e4d159ea03268007f13a838696ff32a20dcb",
+    "cloud.css": "62dceb6a776d48a6cfe0fe9b366629cff15501cd8a0edb56324eb522044c0b1c",
+    "auth.js": "fc48d194b31ea1348fd7245a44ab6beefede05116395eed01e588b3aba515575",
+    "cadens-auth.html": "b174442505b9442d7ffabd33e5c48ca1d44188a7a26aa419e107a655435842b8",
+    "welcome.html": "3efa015d9a5bdf3be300d50eefd26123e7463dd81498afe0bd404ca901b980f1",
+    "cadens-theme.css": "b8eda1e01d69803a7da404811d157f78a482b9ad7b86054e7289a67c70bdfe78",
+    "cadens-tools-theme.css": "4dd53e40eb265dca1e16c867c88f9507ca71813cd486f4373ed4b04ed1abab41",
+    "auth-entry.js": "b596e55c36ce904dd01c2cef2f30c9a6edc0f90e9ea4700570de2d7e79417b06"
+  }
+}

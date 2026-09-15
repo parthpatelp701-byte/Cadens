@@ -1,5 +1,27 @@
+# Dependencies / builds
 node_modules/
 dist/
+*.local
+.DS_Store
+
+# Local environment/secrets
 .env
+.env.*
+!.env.example
+
+# Netlify
 .netlify/
-test-results/
+
+# Supabase local runtime
+.supabase/
+supabase/.branches/
+supabase/.temp/
+**/supabase/.temp/
+
+# Generated review evidence
+tests/theme-review/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*

@@ -1,0 +1,43 @@
+/* Bridge retained specialist tools to the landing's shared tokens. */
+html:root, html[data-theme], body[class] {
+  --bg:var(--cadens-bg)!important; --bg2:var(--cadens-bg)!important;
+  --s1:var(--cadens-s1)!important; --s2:var(--cadens-s2)!important; --s3:var(--cadens-s3)!important;
+  --txt:var(--cadens-txt)!important; --text:var(--cadens-txt)!important;
+  --dim:var(--cadens-dim)!important; --mute:var(--cadens-dim)!important;
+  --acc:var(--cadens-pink)!important; --acc-h:var(--cadens-pink)!important;
+  --acc2:var(--cadens-pink)!important; --acc3:var(--cadens-pink)!important;
+  --acc4:var(--cadens-pink)!important; --acc5:var(--cadens-pink)!important;
+  --ok:var(--cadens-pink)!important;
+  --on-acc:var(--cadens-ink)!important; --line:var(--cadens-line)!important;
+  --line2:var(--cadens-line-soft)!important; --font:var(--cadens-font)!important;
+  --r:var(--cadens-radius)!important; --r-lg:var(--cadens-radius-lg)!important;
+  --shadow:var(--cadens-shadow)!important; --shadow-lg:var(--cadens-shadow)!important;
+  --glass:var(--cadens-s1)!important; --glass2:var(--cadens-s2)!important;
+  color-scheme:dark!important;
+}
+html body { background:var(--cadens-bg); color:var(--cadens-txt); }
+body :is(h1,h2,h3) { font-family:var(--cadens-display); letter-spacing:-.025em; }
+body .btn.fill,body .fab { color:var(--cadens-ink); background:var(--cadens-pink); border:2px solid var(--cadens-ink); box-shadow:3px 3px 0 var(--cadens-ink); }
+body .btn.soft { color:var(--cadens-txt); }
+body :is(.t-hero,.tab-hero,.places-hero,.lb-card,.git-card,.goal-card,.group-banner,.post-box,.sheet-panel) { border:1.5px solid var(--cadens-line); border-radius:var(--cadens-radius); background:var(--cadens-s1); box-shadow:var(--cadens-shadow); }
+body .t-hero { background:radial-gradient(ellipse at top right,color-mix(in srgb,var(--cadens-pink) 14%,var(--cadens-s1)),var(--cadens-s1) 75%); }
+body .paper { --pb:var(--cadens-s1); --pi:var(--cadens-txt); --pd:var(--cadens-dim); --pl:var(--cadens-line); --pm:var(--cadens-pink); box-shadow:var(--cadens-shadow); }
+body .paper .dk { color:var(--cadens-dim); }
+body .topbar { backdrop-filter:none; }
+body .topbar .sub { display:none; }
+body #avChip { color:var(--cadens-ink)!important; }
+body #cadensCloudBar { background:var(--cadens-s1); color:var(--cadens-dim); }
+body #cadensAuth { color:var(--cadens-txt); background:var(--cadens-s1); border-radius:var(--cadens-radius-lg); border:1.5px solid var(--cadens-line); }
+body #sheetTheme { display:none!important; }
+body .nav a { display:flex; flex:1; flex-direction:column; align-items:center; justify-content:center; text-decoration:none; color:var(--cadens-dim); min-height:52px; font-size:.7rem; font-weight:700; }
+body .nav { padding-left:env(safe-area-inset-left); padding-right:env(safe-area-inset-right); background:var(--cadens-s1); backdrop-filter:none; }
+body .topbar { padding-left:max(14px,env(safe-area-inset-left)); padding-right:max(14px,env(safe-area-inset-right)); }
+body .sheet-panel { max-height:90dvh; overflow-y:auto; }
+body .mode-shortcuts { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+body .mode-shortcuts a { color:var(--cadens-pink); padding:12px 16px; border:1px solid var(--cadens-line); border-radius:999px; text-decoration:none; min-height:48px; }
+body.mode-leaderboard #v-social :is(.tab-hero,.post-box,.story-rail,.feed,#feedEmpty) { display:none; }
+body.mode-leaderboard #v-social::before { content:'cheer, not compete'; display:block; font:800 1.5rem/1.4 var(--cadens-display); margin:12px 0 24px; }
+body.mode-leaderboard .fab { display:none; }
+@media (hover:hover) and (pointer:fine) { body .nav a:hover,body .mode-shortcuts a:hover { color:var(--cadens-pink); border-color:var(--cadens-pink); } }
+@media (pointer:coarse) { body :is(button,.btn,.iconbtn,.nav a) { min-height:48px; min-width:48px; } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }

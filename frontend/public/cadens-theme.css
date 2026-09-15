@@ -1,0 +1,39 @@
+/* Source of truth: values extracted from the supplied Cadens landing page. */
+:root {
+  color-scheme: dark;
+  --cadens-bg: #09090b;
+  --cadens-s1: #121216;
+  --cadens-s2: #18181f;
+  --cadens-s3: #22222c;
+  --cadens-line: rgba(255,255,255,.1);
+  --cadens-line-soft: rgba(255,255,255,.06);
+  --cadens-txt: #fafafa;
+  --cadens-dim: #b4b4be;
+  --cadens-mute: #7a7a85;
+  --cadens-pink: #ec4899;
+  --cadens-ink: #0a0a0b;
+  --cadens-font: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --cadens-display: "Unbounded",var(--cadens-font);
+  --cadens-radius: 20px;
+  --cadens-radius-lg: 28px;
+  --cadens-shadow: 6px 6px 0 rgba(0,0,0,.35);
+}
+
+/* Same-origin document handoff; unsupported browsers keep normal navigation. */
+@view-transition { navigation: auto; }
+::view-transition-group(root) { animation-duration: 240ms; }
+::view-transition-old(root), ::view-transition-new(root) {
+  animation-duration: 240ms;
+  animation-timing-function: ease-out;
+}
+.cadens-brand-transition { view-transition-name: cadens-brand; }
+::view-transition-group(cadens-brand) {
+  animation-duration: 240ms;
+  animation-timing-function: ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

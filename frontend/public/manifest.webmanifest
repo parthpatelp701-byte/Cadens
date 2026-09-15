@@ -1,0 +1,20 @@
+{
+  "id": "/",
+  "name": "Cadens",
+  "short_name": "Cadens",
+  "description": "Intelligent workflows for progress, saves, and trusted teams.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0B1220",
+  "theme_color": "#0B1220",
+  "orientation": "any",
+  "lang": "en",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    { "src": "/cadens-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/cadens-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/cadens-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/cadens-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
