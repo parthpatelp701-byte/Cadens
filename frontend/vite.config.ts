@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => ({
       }
       execFileSync(process.execPath, [path.resolve(__dirname, 'scripts/verify-preserved.mjs')], { stdio: 'inherit' })
     },
-    closeBundle() {
+    writeBundle() {
       // Warm the actual fingerprinted entry while the visitor reads the landing.
       // No app scripts execute there and no bundled styles alter its design.
       const output = path.resolve(__dirname, 'dist')
