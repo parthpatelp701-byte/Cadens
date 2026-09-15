@@ -4,7 +4,7 @@
 
 - Published tested Netlify production deploy `6aa80577f63a215fd68afc17` to `cadens-private-beta.netlify.app`.
 - Confirmed production routes, CSP, SRI, pinned MSAL response and browser execution.
-- Prepared the matching React/Supabase source for a history-preserving update of GitHub `main`.
+- Synchronized the matching React/Supabase source to GitHub `main` while preserving repository history.
 - Retained previous production deploy `6aa7502dc5c59adc42dc1fae` as the rollback target; no database migration was part of this release.
 
 ## 2026-09-14 — Heartbeat and auth handoff review draft
