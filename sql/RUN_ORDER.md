@@ -32,3 +32,4 @@ See `sql/archive/` — superseded duplicates and experimental modules (nearby, c
 16. `15-builder-dna.sql` — optional GitHub Builder DNA cache
 17. `16-audit-fixes.sql` — accounts UPDATE grant + GitHub RPC upserts
 18. `17-builder-dna-read.sql` — get/disconnect/list visible DNA
+19. `18-connected-rhythm-collections.sql` — widens `daybook_sync`/`daybook_load` for Connected Rhythm Phase A collections: habits, focus sessions, mood check-ins and badges
