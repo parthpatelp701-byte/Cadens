@@ -24,8 +24,6 @@ export default defineConfig(({ mode }) => ({
       // No app scripts execute there and no bundled styles alter its design.
       const output = path.resolve(__dirname, 'dist')
       const index = readFileSync(path.join(output, 'index.html'), 'utf8')
-      // Vite regenerates this tag and drops unknown input attributes.
-      writeFileSync(path.join(output, 'index.html'), index.replace('<script type="module"', '<script blocking="render" type="module"'))
       const script = index.match(/<script[^>]+src="([^"]+)"/)?.[1]
       const css = [...index.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"/g)].map(match => match[1]).find(href => href.startsWith('/assets/'))
       if (!script || !css) throw new Error('Missing auth handoff build assets')
