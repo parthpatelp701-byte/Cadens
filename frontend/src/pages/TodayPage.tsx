@@ -7,6 +7,7 @@ import { listEventsInRange, expandRecurringEvents } from '@/lib/calendar'
 import type { CalendarEvent } from '@/lib/calendar'
 import { pacificDay, pacificInput, pacificTime } from '@/lib/time'
 import { ModePicker } from '@/components/home/ModePicker'
+import { HabitTodaySection } from '@/components/home/HabitTodaySection'
 
 export function TodayPage(){
   const [tasks,setTasks]=useState<Task[]>([]),[events,setEvents]=useState<CalendarEvent[]>([])
@@ -37,6 +38,7 @@ export function TodayPage(){
   return <div className="space-y-6 page-enter">
     <header><p className="text-sm text-[var(--color-dim)]">{new Intl.DateTimeFormat('en-US',{timeZone:'America/Vancouver',weekday:'long',month:'long',day:'numeric'}).format(new Date())} · Pacific time</p><h1 className="text-3xl font-bold mt-1">today’s rhythm</h1></header>
     <ModePicker />
+    <HabitTodaySection />
     <form onSubmit={add} className="surface-elevated p-3 flex gap-2"><label htmlFor="today-capture" className="sr-only">Add a task for today</label><input id="today-capture" className="field flex-1 min-w-0" value={capture} onChange={e=>setCapture(e.target.value)} placeholder="What do you want to do today?" maxLength={300}/><button className="px-4 rounded-xl bg-[var(--color-acc)] text-[var(--color-ink)] border-2 border-[var(--color-ink)] shadow-[4px_4px_0_var(--color-ink)]" disabled={!!busy||!capture.trim()} aria-label="Add task"><Plus size={20}/></button></form>
     {error&&<div role="alert" className="surface-elevated p-4"><p>{error}</p><button onClick={()=>void load()} className="text-[var(--color-acc)] mt-2">Try again</button></div>}
     {loading?<p role="status">Loading your day…</p>:<>
