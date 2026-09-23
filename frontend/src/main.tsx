@@ -19,8 +19,22 @@ const router = createBrowserRouter([{ path: '*', element:
   <QueryClientProvider client={queryClient}><AuthProvider><App /></AuthProvider></QueryClientProvider>,
 }])
 
-// Commit the first route before the module releases the document's first paint.
-// Auth session requests remain asynchronous; the form stays in place while loading.
-flushSync(() => createRoot(document.getElementById('root')!).render(
-  <StrictMode><RouterProvider router={router} /></StrictMode>
-))
+function mountCadens() {
+  const rootElement = document.getElementById('root')
+  if (!rootElement) {
+    console.error('[cadens] Missing #root mount element')
+    return
+  }
+
+  // Commit the first route before the module releases the document's first paint.
+  // Auth session requests remain asynchronous; the form stays in place while loading.
+  flushSync(() => createRoot(rootElement).render(
+    <StrictMode><RouterProvider router={router} /></StrictMode>
+  ))
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', mountCadens, { once: true })
+} else {
+  mountCadens()
+}
