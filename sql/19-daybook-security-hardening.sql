@@ -48,17 +48,17 @@ grant execute on function public.daybook_group_action(text, uuid, uuid, text, te
 drop policy if exists daybook_revisions_select on public.daybook_revisions;
 create policy daybook_revisions_select on public.daybook_revisions
   for select to authenticated
-  using (user_id = auth.uid());
+  using (user_id = (select auth.uid()));
 
 drop policy if exists daybook_revisions_insert on public.daybook_revisions;
 create policy daybook_revisions_insert on public.daybook_revisions
   for insert to authenticated
-  with check (user_id = auth.uid());
+  with check (user_id = (select auth.uid()));
 
 drop policy if exists daybook_revisions_update on public.daybook_revisions;
 create policy daybook_revisions_update on public.daybook_revisions
   for update to authenticated
-  using (user_id = auth.uid())
-  with check (user_id = auth.uid());
+  using (user_id = (select auth.uid()))
+  with check (user_id = (select auth.uid()));
 
 commit;
