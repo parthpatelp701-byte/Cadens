@@ -11,8 +11,11 @@ export default defineConfig(({ mode }) => ({
     apply: 'build',
     buildStart() {
       const env = { ...loadEnv(mode, __dirname, ''), ...process.env }
-      if (env.VITE_SUPABASE_URL !== 'https://iqnctgdnlyxjngqnzacr.supabase.co') {
-        throw new Error('Preserved app targets the Cadens Supabase project. Rebuild its assets before using a different backend.')
+      const manifest = JSON.parse(readFileSync(path.resolve(__dirname, 'preserved-artifacts.json'), 'utf8')) as { supabaseProject?: string }
+      const expectedProject = manifest.supabaseProject
+      const expectedUrl = expectedProject ? `https://${expectedProject}.supabase.co` : ''
+      if (!expectedProject || env.VITE_SUPABASE_URL !== expectedUrl) {
+        throw new Error(`Preserved app targets Supabase project ${expectedProject || 'unknown'}. Set VITE_SUPABASE_URL to ${expectedUrl || 'the preserved manifest project'} or rebuild and re-verify preserved assets before using a different backend.`)
       }
       execFileSync(process.execPath, [path.resolve(__dirname, 'scripts/verify-preserved.mjs')], { stdio: 'inherit' })
     },

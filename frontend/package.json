@@ -7,11 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test:unit": "tsx --test src/lib/calendarCompatibility.test.ts src/lib/image.test.ts src/lib/mentions.test.ts src/lib/recurrence.test.ts src/lib/taskAdapter.test.ts src/lib/taskCompatibility.test.ts",
+    "test:unit": "tsx --test src/lib/calendarCompatibility.test.ts src/lib/connectedRhythm.test.ts src/lib/habits.test.ts src/lib/image.test.ts src/lib/mentions.test.ts src/lib/recurrence.test.ts src/lib/taskAdapter.test.ts src/lib/taskCompatibility.test.ts",
     "test:library": "node library-compatibility.test.mjs",
     "test:db": "node supabase/calendar-access.test.mjs --full-baseline",
     "test:preservation": "node scripts/verify-preserved.mjs && node scripts/sql-sanity.mjs",
-    "test": "tsx --test src/lib/calendarCompatibility.test.ts src/lib/image.test.ts src/lib/mentions.test.ts src/lib/recurrence.test.ts src/lib/taskAdapter.test.ts src/lib/taskCompatibility.test.ts && node library-compatibility.test.mjs && node supabase/calendar-access.test.mjs --full-baseline && node scripts/verify-preserved.mjs && node scripts/sql-sanity.mjs"
+    "test": "tsx --test src/lib/calendarCompatibility.test.ts src/lib/connectedRhythm.test.ts src/lib/habits.test.ts src/lib/image.test.ts src/lib/mentions.test.ts src/lib/recurrence.test.ts src/lib/taskAdapter.test.ts src/lib/taskCompatibility.test.ts && node library-compatibility.test.mjs && node supabase/calendar-access.test.mjs --full-baseline && node scripts/verify-preserved.mjs && node scripts/sql-sanity.mjs"
   },
   "dependencies": {
     "@date-fns/tz": "1.5.0",

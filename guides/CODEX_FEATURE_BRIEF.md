@@ -2,6 +2,8 @@
 
 The latest ZIP is the current 100% codebase. Previous Codex context covers only ~40%; later work covers ~60%. Preserve current functionality.
 
+Connected Rhythm PRD v5 supersedes this brief for Habits, Momentum, Focus, Mood and beta-release sequencing. Keep Builder DNA/Daily Flow as compatible product threads, but do not build them ahead of PRD §23's preservation order unless the Product Owner explicitly reorders the work.
+
 Priority feature work:
 
 1. **Builder DNA** — evolve the existing GitHub integration into a Cadens-native proof-of-work and builder compatibility experience. Do not clone GitHub UI or terminology. See `guides/GITHUB_AND_TASKS_INNOVATION_PLAN.md`.
