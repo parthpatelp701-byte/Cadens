@@ -4,6 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  VITE_SUPABASE_URL = "https://rrqyoeeqwgihjcfmyveq.supabase.co"
 
 # SPA fallback — deep links work on refresh (required for PWA + mobile browsers)
 [[redirects]]
