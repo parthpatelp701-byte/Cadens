@@ -20,6 +20,11 @@ Run in **Supabase SQL Editor** top to bottom on a clean or upgraded project.
 13. `12-account-deletion.sql` — wipe_my_cadens_data()
 14. `13-rls-hardening.sql` — FORCE RLS, tighten policies, revoke anon
 15. `14-calendar-task-sync.sql` — update_calendar_event mirrors linked task  
+16. `15-builder-dna.sql` — optional GitHub Builder DNA cache
+17. `16-audit-fixes.sql` — accounts UPDATE grant + GitHub RPC upserts
+18. `17-builder-dna-read.sql` — get/disconnect/list visible DNA
+19. `18-connected-rhythm-collections.sql` — widens `daybook_sync`/`daybook_load` for Connected Rhythm Phase A collections: habits, focus sessions, mood check-ins and badges
+20. `19-daybook-security-hardening.sql` — keeps Daybook writes behind authenticated RPCs, removes anon/public RPC execution and adds safe revision policies
 
 ## Archived (do not run)
 See `sql/archive/` — superseded duplicates and experimental modules (nearby, contact discovery, etc.).
@@ -27,9 +32,7 @@ See `sql/archive/` — superseded duplicates and experimental modules (nearby, c
 ## After SQL
 - Enable Realtime on tables you use (messages, notifications, ideas as needed)  
 - Confirm RLS: Dashboard → Authentication/Table Editor → RLS enabled on app tables
+- Confirm RPC grants: `daybook_load`, `daybook_sync`, `daybook_feed`, `daybook_groups`, and `daybook_group_action` are executable by `authenticated`, not `anon`
+- Run a real authenticated smoke check: sign in, create/update/delete one habit, refresh, then confirm another user cannot read it
 - Deploy Edge Functions: `send-push`, optional `generate-embedding`, `unfurl`  
-- Set frontend env: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, optional `VITE_VAPID_PUBLIC_KEY`
-16. `15-builder-dna.sql` — optional GitHub Builder DNA cache
-17. `16-audit-fixes.sql` — accounts UPDATE grant + GitHub RPC upserts
-18. `17-builder-dna-read.sql` — get/disconnect/list visible DNA
-19. `18-connected-rhythm-collections.sql` — widens `daybook_sync`/`daybook_load` for Connected Rhythm Phase A collections: habits, focus sessions, mood check-ins and badges
+- Set frontend env for the active beta backend: `VITE_SUPABASE_URL=https://rrqyoeeqwgihjcfmyveq.supabase.co`, `VITE_SUPABASE_ANON_KEY`, optional `VITE_VAPID_PUBLIC_KEY`
