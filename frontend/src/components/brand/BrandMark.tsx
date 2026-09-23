@@ -1,6 +1,6 @@
 import { clsx } from 'clsx'
 
-/** The heartbeat from the supplied landing page; draw once on entry. */
+/** Cadens radiant heartbeat mark. */
 export function BrandMark({ size = 40, className, animated = false }: {
   size?: number; className?: string; animated?: boolean
 }) {
@@ -15,6 +15,6 @@ export function BrandMark({ size = 40, className, animated = false }: {
 export function BrandWordmark({ className }: { className?: string }) {
   return <span className={clsx('inline-flex items-center gap-2.5', className)}>
     <BrandMark size={32} />
-    <span className="font-display text-[1.05rem] font-extrabold tracking-tight leading-tight">cadens</span>
+    <span className="font-display text-[1.05rem] font-extrabold tracking-tight leading-tight">Cadens</span>
   </span>
 }
